@@ -20,6 +20,7 @@ function setup() {
   background(r,g,b);
 }
 
+// random color bg expanding ellipse with volume
 function draw() {
   var volume = amplitude.getLevel();
   var spectrum = fft.analyze();
@@ -30,25 +31,21 @@ function draw() {
   // var b = lerp(10, 250, max(wavelength));
   rand = random(0,255);
   background(color(r,g,b,rand));
-  // fill(0);
-  // textSize(20);
-  // text("volume: " + volume, 20, 80);
-  // text("spectrum: " + max(spectrum), 20, 120);
-  // text("wavelength: " + (max(wavelength)), 20, 160);
-  // text("rand: " + ceil(rand), 20, 180);
 
-  // _r = r;
-  // _g = g;
-  // _b = b;
-  // r = _g;
-  // g = _b;
-  // b = _r;
-  // fill(r,g,b,seed);
-
-  // strokeWeight(10);
-  // stroke(0,0,0,255);
-
-  // // Draw an ellipse with size based on volume
-  // ellipse(width/2, height/2, 400+volume*4000, 400+volume*4000);
-  // ellipse(width/2, height/2, 200+volume*2000, 200+volume*2000);
+  fill(0,0,0);
+  ellipse(width/2, height/2, 200+volume*2000, 200+volume*2000);
+  fill(50,50,50);
+  ellipse(width/2, height/2, 180+volume*1800, 180+volume*2000);
+  fill(0,0,0);
+  ellipse(width/2, height/2, 140+volume*1400, 140+volume*2000);
+  fill(100,100,100);
+  ellipse(width/2, height/2, 100+volume*1000, 100+volume*2000);
+  fill(200,200,200);
+  ellipse(width/2, height/2, 80+volume*800, 80+volume*2000);
+  fill(0,0,0);
+  ellipse(width/2, height/2, 60+volume*600, 60+volume*2000);
+  fill(255,255,255);
+  ellipse(width/2, height/2, 40+volume*400, 40+volume*400);
+  fill(0,0,0);
+  ellipse(width/2, height/2, 20+volume*200, 20+volume*200);
 }
