@@ -1,23 +1,63 @@
 var spectrum, amplitude, level, cnv, seed;
 var r, g, b;
+var song;
+
+var debug = false;
+
+function preload() {
+    song = loadSound('beatz.mp3');
+    //song = loadSound('demo-riff.mp3');
+}
 
 function setup() {
   cnv = createCanvas(windowWidth, windowHeight);
 
-  mic = new p5.AudioIn();
-  mic.start();
 
   fft = new p5.FFT();
-  fft.setInput(mic);
+  fft.setInput(song);
 
   amplitude = new p5.Amplitude();
-  amplitude.setInput(mic);
-
+  amplitude.setInput(song);
+  song.loop();
   // seed value to give variation in color each time
-  r = ceil(random(0, 255));
-  g = ceil(random(0, 255));
-  b = ceil(random(0, 255));
+  r = floor(random(0, 255));
+  g = floor(random(0, 255));
+  b = floor(random(0, 255));
   background(r,g,b);
+  
+  colors = [
+    [
+      color(77,124,149),
+      color(91,198,255),
+      color(139,195,225),
+      color(149,88,9),
+      color(225,130,9)
+    ],
+    [
+     color(255,83,13),
+     color(232,44,12),
+     color(255,0,0),
+     color(232,12,122),
+     color(255,13,255)
+    ],
+    [
+     color(86,192,212),
+     color(90,222,208),
+     color(91,199,157),
+     color(90,222,133),
+     color(86,212,92)
+    ],
+    [
+     color(136,212,67),
+     color(70,215,222),
+     color(122,73,199),
+     color(222,89,70),
+     color(212,188,107)
+    ]
+  ]
+  
+  pallateCount = colors.length-1;
+  chosenColors = shuffle(colors[floor(random(0,3))]);
 }
 
 // random color bg expanding ellipse with volume
@@ -29,23 +69,27 @@ function draw() {
   // var r = volume*255;
   // var g = max(spectrum);
   // var b = lerp(10, 250, max(wavelength));
-  rand = random(0,255);
-  background(color(r,g,b,rand));
+  background(color(r,g,b));
+  
+  var startSize = 200;
+  for (var i=0; i < chosenColors.length; i++) {
+    fill(chosenColors[i]);
+    
+    size = (startSize+(volume*100));
+    
+    ellipse(width/2, height/2, size, size);
+    startSize = startSize-40;
+    
+    if (debug == true) {
+      fill(0);
+      text(volume, 100, 100);
+    }
+    
+  }
+  
+}
 
-  fill(0,0,0);
-  ellipse(width/2, height/2, 200+volume*2000, 200+volume*2000);
-  fill(50,50,50);
-  ellipse(width/2, height/2, 180+volume*1800, 180+volume*2000);
-  fill(0,0,0);
-  ellipse(width/2, height/2, 140+volume*1400, 140+volume*2000);
-  fill(100,100,100);
-  ellipse(width/2, height/2, 100+volume*1000, 100+volume*2000);
-  fill(200,200,200);
-  ellipse(width/2, height/2, 80+volume*800, 80+volume*2000);
-  fill(0,0,0);
-  ellipse(width/2, height/2, 60+volume*600, 60+volume*2000);
-  fill(255,255,255);
-  ellipse(width/2, height/2, 40+volume*400, 40+volume*400);
-  fill(0,0,0);
-  ellipse(width/2, height/2, 20+volume*200, 20+volume*200);
+function shuffle(o){
+  for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+  return o;
 }
